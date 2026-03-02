@@ -5,12 +5,16 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
-    public function up(): void
-    {
-       Schema::table('categories', function (Blueprint $table) {
-            $table->text('deskripsi')->nullable()->after('nama_kategori');
-        });
-    }
+   public function up(): void
+{
+    // Gunakan 'create', BUKAN 'table'
+    Schema::create('categories', function (Blueprint $table) {
+        $table->id();
+        $table->string('name'); // Contoh kolom nama kategori
+        $table->text('deskripsi')->nullable(); // Kolom deskripsi yang mau kamu buat
+        $table->timestamps();
+    });
+}
 
     public function down(): void
     {
