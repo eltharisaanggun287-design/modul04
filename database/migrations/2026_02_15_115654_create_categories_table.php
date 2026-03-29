@@ -10,7 +10,7 @@ return new class extends Migration {
     // Gunakan 'create', BUKAN 'table'
     Schema::create('categories', function (Blueprint $table) {
         $table->id();
-        $table->string('name'); // Contoh kolom nama kategori
+        $table->string('nama_kategori'); // Contoh kolom nama kategori
         $table->text('deskripsi')->nullable(); // Kolom deskripsi yang mau kamu buat
         $table->timestamps();
     });

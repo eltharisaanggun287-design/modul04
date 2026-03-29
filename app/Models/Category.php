@@ -6,14 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-    use HasFactory;
-
-    // Kolom yang boleh diisi
-    protected $fillable = ['nama_kategori', 'deskripsi'];
-
-    // Relasi: 1 Kategori punya BANYAK Buku
-    public function books()
-    {
-        return $this->hasMany(Book::class);
-    }
+    // Ini harus sama persis dengan yang di migration
+    protected $fillable = ['nama_kategori']; 
 }
