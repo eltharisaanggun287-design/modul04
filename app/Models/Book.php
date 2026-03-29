@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Book extends Model
-{
-    protected $fillable = ['judul', 'penulis', 'penerbit', 'tahun_terbit'];
+class Book extends Model {
+    protected $fillable = ['category_id', 'judul', 'penulis', 'tahun', 'stok', 'gambar'];
+    public function category() { return $this->belongsTo(Category::class); }
 }

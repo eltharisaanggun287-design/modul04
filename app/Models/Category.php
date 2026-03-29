@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Category extends Model
-{
-    // Ini harus sama persis dengan yang di migration
-    protected $fillable = ['nama_kategori']; 
+class Category extends Model {
+    protected $fillable = ['nama_kategori'];
+    public function books() { return $this->hasMany(Book::class); }
 }

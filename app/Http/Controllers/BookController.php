@@ -3,49 +3,45 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
-use App\Models\Category; // WAJIB: Agar bisa mengambil data kategori
+use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class BookController extends Controller
 {
-    // 1. Menampilkan daftar buku
-    public function index()
-    {
-        $books = Book::all();
-        $categories = Category::all(); // Mengambil data kategori agar tidak "Undefined" di View
-
-        // Kirim kedua variabel ke view
+    public function index() {
+        $books = Book::with('category')->get();
+        $categories = Category::all();
         return view('books.index', compact('books', 'categories'));
     }
 
-    // 2. Menampilkan form tambah buku
-    public function create()
-    {
-        $categories = Category::all(); // Dibutuhkan jika ada pilihan kategori di form
+    public function create() {
+        $categories = Category::all();
         return view('books.create', compact('categories'));
     }
 
-    // 3. Menyimpan data buku
-    public function store(Request $request)
-    {
-        // Validasi data
-        $validatedData = $request->validate([
-            'judul'        => 'required',
-            'penulis'      => 'required',
-            'penerbit'     => 'required',
-            'tahun_terbit' => 'required|numeric',
+    public function store(Request $request) {
+        $request->validate([
+            'judul' => 'required',
+            'gambar' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'category_id' => 'required'
         ]);
 
-        // Simpan ke database
-        Book::create($validatedData);
+        $data = $request->all();
 
-        return redirect()->route('books.index')->with('success', 'Buku berhasil disimpan!');
-    }
+        if ($request->hasFile('gambar')) {
+            // Membuat folder jika belum ada
+            $path = public_path('images/books');
+            if (!File::isDirectory($path)) {
+                File::makeDirectory($path, 0777, true, true);
+            }
 
-    // 4. Menghapus buku (Lengkap untuk CRUD)
-    public function destroy(Book $book)
-    {
-        $book->delete();
-        return redirect()->route('books.index')->with('success', 'Buku berhasil dihapus!');
+            $imgName = time() . '.' . $request->gambar->extension();
+            $request->gambar->move($path, $imgName);
+            $data['gambar'] = $imgName;
+        }
+
+        Book::create($data);
+        return redirect()->route('books.index')->with('success', 'Buku berhasil ditambah');
     }
 }

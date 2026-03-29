@@ -9,13 +9,15 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void {
+   public function up() {
     Schema::create('books', function (Blueprint $table) {
         $table->id();
+        $table->foreignId('category_id')->constrained()->onDelete('cascade');
         $table->string('judul');
         $table->string('penulis');
-        $table->string('penerbit');
-        $table->integer('tahun_terbit');
+        $table->integer('tahun');
+        $table->integer('stok');
+        $table->string('gambar')->nullable();
         $table->timestamps();
     });
 }

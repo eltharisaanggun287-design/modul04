@@ -4,22 +4,26 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
-   public function up(): void
+return new class extends Migration
 {
-    // Gunakan 'create', BUKAN 'table'
-    Schema::create('categories', function (Blueprint $table) {
-        $table->id();
-        $table->string('nama_kategori'); // Contoh kolom nama kategori
-        $table->text('deskripsi')->nullable(); // Kolom deskripsi yang mau kamu buat
-        $table->timestamps();
-    });
-}
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('categories', function (Blueprint $table) {
+            $table->id();
+            $table->string('nama_kategori');
+            $table->string('image')->nullable(); // Kolom untuk upload gambar
+            $table->timestamps();
+        });
+    }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
-        Schema::table('categories', function (Blueprint $table) {
-            $table->dropColoumn('deskripsi');
-        });
+        Schema::dropIfExists('categories');
     }
 };

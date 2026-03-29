@@ -1,26 +1,32 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Tambah Kategori</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light p-5">
-<div class="container">
-    <div class="card shadow p-4 mx-auto" style="max-width: 450px">
-        <h4>Tambah Kategori Baru</h4>
-        <hr>
-        <form action="{{ route('categories.store') }}" method="POST">
-            @csrf
-            <div class="mb-3">
-                <label class="form-label">Nama Kategori</label>
-                <input type="text" name="nama_kategori" class="form-control" required placeholder="Contoh: Novel">
-            </div>
-            <div class="d-grid gap-2">
-                <button type="submit" class="btn btn-success">Simpan Kategori</button>
-                <a href="{{ route('categories.index') }}" class="btn btn-secondary">Batal</a>
-            </div>
-        </form>
-    </div>
+@extends('layouts.app')
+@section('content')
+<div class="bg-white p-4 shadow rounded col-md-8 mx-auto">
+    <h4 class="fw-bold mb-4">Tambah Buku Baru</h4>
+    <form action="{{ route('books.store') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        <div class="mb-3">
+            <label>Gambar Buku</label>
+            <input type="file" name="gambar" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Kategori</label>
+            <select name="category_id" class="form-select">
+                @foreach($categories as $cat)
+                <option value="{{ $cat->id }}">{{ $cat->nama_kategori }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="mb-3">
+            <label>Judul Buku</label>
+            <input type="text" name="judul" class="form-control" required>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3"><label>Penulis</label><input type="text" name="penulis" class="form-control"></div>
+            <div class="col-md-3 mb-3"><label>Tahun</label><input type="number" name="tahun" class="form-control"></div>
+            <div class="col-md-3 mb-3"><label>Stok</label><input type="number" name="stok" class="form-control"></div>
+        </div>
+        <button type="submit" class="btn btn-primary px-4 shadow">Simpan Data</button>
+        <a href="/books" class="btn btn-light border ms-2">Batal</a>
+    </form>
 </div>
-</body>
-</html>
+@endsection
