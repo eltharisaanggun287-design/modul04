@@ -33,28 +33,34 @@
                     <th>Aksi</th>
                 </tr>
             </thead>
-            <tbody>
-                @foreach($books as $key => $book)
-                <tr>
-                    <td>{{ $key + 1 }}</td>
-                    <td>
-                        @if($book->gambar)
-                            <!-- PEMANGGILAN GAMBAR YANG BENAR -->
-                            <img src="{{ asset('images/books/' . $book->gambar) }}" width="70" class="rounded shadow-sm">
-                        @else
-                            <span class="text-muted">No Image</span>
-                        @endif
-                    </td>
-                    <td class="text-start fw-bold">{{ $book->judul }}</td>
-                    <td>{{ $book->penulis }}</td>
-                    <td><span class="badge bg-success">{{ $book->category->nama_kategori }}</span></td>
-                    <td>
-                        <button class="btn btn-warning btn-sm">Edit</button>
-                        <button class="btn btn-danger btn-sm">Hapus</button>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
+          <tbody>
+    @forelse ($books as $book)
+        <tr>
+            <td>{{ $loop->iteration }}</td>
+            <td>
+                <img src="{{ asset('storage/' . $book->gambar) }}" width="50">
+            </td>
+            <td>{{ $book->judul }}</td>
+            <td>{{ $book->penulis }}</td>
+            <td>{{ $book->tahun }}</td>
+            <td>{{ $book->stok }}</td>
+            <td>{{ $book->category->name ?? 'Tanpa Kategori' }}</td>
+            <td>
+                <!-- Tombol Aksi (Edit/Hapus) -->
+                <form action="{{ route('books.destroy', $book->id) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <a href="{{ route('books.edit', $book->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                    <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                </form>
+            </td>
+        </tr>
+    @empty
+        <tr>
+            <td colspan="8" class="text-center">Belum ada data buku.</td>
+        </tr>
+    @endforelse
+</tbody>
         </table>
     </div>
 </div>

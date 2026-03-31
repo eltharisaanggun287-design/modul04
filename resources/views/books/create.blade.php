@@ -20,13 +20,45 @@
         <h2 class="mb-4 fw-bold">Tambah Buku</h2>
         
        <!-- Pastikan baris form-nya persis seperti ini -->
+<<!-- Perhatikan baris ini, harus ada enctype -->
 <form action="{{ route('books.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="mb-3">
         <label>Gambar Buku</label>
         <input type="file" name="gambar" class="form-control" required>
     </div>
-    <!-- ... input lainnya ... -->
+    
+    <!-- PASTIKAN INPUT LAINNYA JUGA ADA -->
+    <div class="mb-3">
+    <label>Kategori</label>
+    <select name="category_id" class="form-control" required>
+        <option value="">-- Pilih Kategori --</option>
+        @foreach($categories as $cat)
+            <option value="{{ $cat->id }}">{{ $cat->name }}</option>
+        @endforeach
+    </select>
+</div>
+    <div class="mb-3">
+        <label>Penulis</label>
+        <input type="text" name="penulis" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label>Tahun</label>
+        <input type="number" name="tahun" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label>Stok</label>
+        <input type="number" name="stok" class="form-control" required>
+    </div>
+    <div class="mb-3">
+        <label>Kategori</label>
+        <select name="category_id" class="form-control" required>
+            @foreach($categories as $cat)
+                <option value="{{ $cat->id }}">{{ $cat->name }}</option>
+            @endforeach
+        </select>
+    </div>
+
     <button type="submit" class="btn btn-primary">Simpan</button>
 </form>
     </div>
